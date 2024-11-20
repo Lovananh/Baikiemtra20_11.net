@@ -85,6 +85,12 @@
     <EmbeddedResource Include="Dangnhap.resx">
       <DependentUpon>Dangnhap.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DanhmucKhachhang.resx">
+      <DependentUpon>DanhmucKhachhang.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DanhmucSanpham.resx">
+      <DependentUpon>DanhmucSanpham.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Donhang.resx">
       <DependentUpon>Donhang.cs</DependentUpon>
     </EmbeddedResource>

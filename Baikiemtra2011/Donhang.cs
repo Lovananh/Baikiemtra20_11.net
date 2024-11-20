@@ -15,6 +15,7 @@ namespace Baikiemtra2011
         public Donhang()
         {
             InitializeComponent();
+            dataGridViewDonhang.CellClick += dataGridViewDonhang_CellContentClick;
         }
         Connect db = new Connect();
         public void getData()
@@ -62,10 +63,12 @@ namespace Baikiemtra2011
         {
             string query = string.Format(
                 "UPDATE Donhang SET khachhangid = '{0}', sanphamid = '{1}', soluong = {2}, ngaymua = '{3}' WHERE id = {4}",
+                
                 txtTenkh.Text,
                 txtSanpham.Text,
                 txtSoluong.Text,
-                dateTimePickerNgaymua.Value.ToString("yyyy-MM-dd") 
+                dateTimePickerNgaymua.Value.ToString("yyyy-MM-dd"),
+                txtId.Text
             );
 
             if (db.ThucThi(query))
@@ -88,8 +91,8 @@ namespace Baikiemtra2011
             if (db.ThucThi(query))
             {
                 MessageBox.Show("Xóa đơn hàng thành công!");
-                getData(); // Cập nhật lại dữ liệu trên DataGridView
-                    Lammoi(); // Reset form sau khi xóa
+                getData();
+                Lammoi(); 
             }
             else
             {
@@ -102,15 +105,15 @@ namespace Baikiemtra2011
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow row = dataGridViewDonhang.Rows[e.RowIndex];
-                txtId.Text = row.Cells["id"].Value.ToString(); // Lấy ID của đơn hàng
+                txtId.Text = row.Cells["id"].Value.ToString();
                 txtTenkh.Text = row.Cells["khachhangid"].Value.ToString();
                 txtSanpham.Text = row.Cells["sanphamid"].Value.ToString();
                 txtSoluong.Text = row.Cells["soluong"].Value.ToString();
-                dateTimePickerNgaymua.Value = Convert.ToDateTime(row.Cells["ngaymua"].Value); // Hiển thị ngày mua
+                dateTimePickerNgaymua.Value = Convert.ToDateTime(row.Cells["ngaymua"].Value); 
 
-                btnThem.Enabled = false; // Vô hiệu hóa nút Thêm khi đang sửa hoặc xóa
-                btnSua.Enabled = true; // Kích hoạt nút Sửa
-                btnXoa.Enabled = true; // Kích hoạt nút Xóa
+                btnThem.Enabled = false;
+                btnSua.Enabled = true;
+                btnXoa.Enabled = true; 
             }
 
         }
@@ -118,6 +121,24 @@ namespace Baikiemtra2011
         private void Donhang_Load(object sender, EventArgs e)
         {
             getData();
+        }
+
+        private void btnTimkiem_Click(object sender, EventArgs e)
+        {
+            string keyword = txtTimkiem.Text.Trim();
+
+            // kiểm tra xem có không
+            if (string.IsNullOrEmpty(keyword))
+            {
+                getData();
+                return;
+            }
+
+            // Câu truy vấn tìm kiếm đơn giản chỉ theo id khách hàng
+            string query = "SELECT * FROM Donhang WHERE khachhangid LIKE N'%" + keyword + "%'";
+
+            DataSet ds = db.Laydulieu(query);
+            dataGridViewDonhang.DataSource = ds.Tables[0];
         }
     }
 }

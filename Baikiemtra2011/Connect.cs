@@ -13,7 +13,7 @@ namespace Baikiemtra2011
         string conStr = "Data Source=LOVANANH-2812;Initial Catalog=MobileShop;Integrated Security=True";
         SqlConnection conn;
 
-        // Constructor khởi tạo kết nối
+       
         public Connect()
         {
             conn = new SqlConnection(conStr);

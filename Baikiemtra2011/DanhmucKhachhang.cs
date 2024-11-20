@@ -15,6 +15,24 @@ namespace Baikiemtra2011
         public DanhmucKhachhang()
         {
             InitializeComponent();
+            dataGridViewKhachhang.CellClick += dataGridViewKhachhang_CellContentClick;
+        }
+        Connect db = new Connect();
+        public void getData()
+        {
+            string query = "select * from Khachhang";
+            DataSet ds = db.Laydulieu(query);
+            dataGridViewKhachhang.DataSource = ds.Tables[0];
+        }
+
+        private void dataGridViewKhachhang_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void DanhmucKhachhang_Load(object sender, EventArgs e)
+        {
+            getData();
         }
     }
 }
